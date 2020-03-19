@@ -1,44 +1,62 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
+    <link rel="stylesheet" href="~/Content/HeaderBlue.css">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<div class="header-blue">
+    <nav class="navbar navbar-default navigation-clean-search">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                <a class="navbar-brand navbar-link" href="#">@Html.ActionLink(" ", "Index", "Home", new {area = ""}, new {@class = "navbar-brand glyphicon glyphicon-home"})</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                    <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li role="presentation">@Html.ActionLink("Products", "Index", "Products")</li>
+                    <li role="presentation">@Html.ActionLink("My Cart", "Index", "ShoppingCart")</li>
+                    <li role="presentation">@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+
+                <p class="navbar-text navbar-right">
+                    @Html.Partial("_LoginPartial")
+                </p>
+            </div>
+        </div>
+    </nav>
+    <div class="container hero">
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1 col-md-6 col-md-offset-0">
+                <h1 style="font-family: fantasy ">Welcome to the fashion world of cuties.</h1>
+                <p>Please refer below for the coming season with comfort and love </p>
+            </div>
+            <div class="col-lg-5 col-lg-offset-0 col-md-5 col-md-offset-1 hidden-xs hidden-sm phone-holder">
+                <div class="iphone-mockup">
+                    <img src="https://www.adorabletab.com/gallery/adorable-kids/cute-kid-little-girl-adorable.jpg" class="device img-rounded">
+                    <img src="https://cdn.pixabay.com/photo/2016/03/07/09/41/child-1241825_960_720.jpg" class="device img-rounded">
+                </div>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+</div>
+<div class="container body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 </body>
 </html>

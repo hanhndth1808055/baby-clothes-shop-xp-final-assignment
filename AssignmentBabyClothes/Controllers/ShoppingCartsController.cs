@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -82,6 +83,11 @@ namespace AssignmentBabyClothes.Controllers
         public ActionResult RemoveOneItem(int productId)
         {
             ShoppingCart shoppingCart = GetShoppingCart();
+            if (!shoppingCart.Items.ContainsKey(productId))
+            {
+                return View("Index", GetShoppingCart());
+
+            }
             if (shoppingCart.Items[productId].Quantity > 1)
             {
                 shoppingCart.Items[productId].Quantity--;

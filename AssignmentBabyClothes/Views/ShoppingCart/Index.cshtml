@@ -24,8 +24,8 @@
         </th>
         <th>Quantity</th>
         <th>Item Total</th>
+        <th>Description</th>
         <th></th>
-
     </tr>
 
     @foreach (var item in Model.Items.Values)
@@ -35,11 +35,15 @@
             <td>@item.Name</td>
             <td><img src="@item.Thumbnail" style="width: 150px" /> </td>
             <td>@item.Price </td>
-            <td> <span>@Html.ActionLink("Remove One", "RemoveOneItem", new { productId = item.ProductId }) |</span> @item.Quantity <span> |@Html.ActionLink("Add One More", "AddToCart", new { productId = item.ProductId, quantity = 1 }, null)</span></td>
+            <td> <span>
+                @Html.ActionLink(" ", "RemoveOneItem", new { productId = item.ProductId }, new { @class = "glyphicon glyphicon-triangle-left" }) |
+            </span> @item.Quantity <span>
+                | @Html.ActionLink(" ", "AddToCart", new {productId = item.ProductId, quantity = 1}, new { @class = "glyphicon glyphicon-triangle-right" })
+            </span></td>
             <td>@item.TotalItemPrice</td>
             <td>@item.Name</td>
             <td>
-                @Html.ActionLink("Remove", "RemoveCartItem", new { productId = item.ProductId })
+                @Html.ActionLink(" ", "RemoveCartItem", new { productId = item.ProductId }, new { @class = "glyphicon glyphicon-trash"})
             </td>
         </tr>
         index++;
