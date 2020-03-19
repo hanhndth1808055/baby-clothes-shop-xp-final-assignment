@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AssignmentBabyClothes.Models;
+using PagedList;
 
 namespace AssignmentBabyClothes.Controllers
 {
@@ -16,9 +17,17 @@ namespace AssignmentBabyClothes.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string searchString, int? page)
         {
             var dbCategories = db.Categories.ToList();
+            var products = db.Products.Include(p => p.Category).OrderBy(p=>p.Name);
+            if (page == null) page = 1;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = (IOrderedQueryable<Product>) products.Where(p => p.Name.Contains(searchString));
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
 
             var categories = new SelectList(
                 dbCategories,
@@ -27,10 +36,7 @@ namespace AssignmentBabyClothes.Controllers
             );
 
             ViewData["categories"] = categories;
-            // model.StatusID = 3; // preselect the element with ID=3 in the list
-            // var dbCategories = db.Categories.ToList();
-            var products = db.Products.Include(p => p.Category);
-            return View(products.ToList());
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult ViewACategory(int categoryId)
@@ -50,8 +56,6 @@ namespace AssignmentBabyClothes.Controllers
 
             ViewData["categories"] = categories;
             ViewData["currentCategory"] = db.Categories.Find(categoryId).Name;
-            // model.StatusID = 3; // preselect the element with ID=3 in the list
-            // var dbCategories = db.Categories.ToList();
             var products = db.Products.Include(p => p.Category).Where(p=>p.CategoryId == categoryId);
             return PartialView("ViewOfACategory",products.ToList());
         }
