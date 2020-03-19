@@ -1,0 +1,91 @@
+﻿@using AssignmentBabyClothes.Models
+@model IEnumerable<AssignmentBabyClothes.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<p>
+    @Html.DropDownList("categories", "Select Category")
+</p>
+
+<table class="table" id="mainProductList">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Thumbnail)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Thumbnail)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                @Html.ActionLink("Add To Cart", "AddToCart",
+                    "ShoppingCart", new { productId = item.Id, quantity = 1 }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div id="divPartialView">
+    <!-- something like this in your ASP.NET View -->
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#categories").change(function (event) {
+            $.ajax({
+                url: "Products/ViewACategory/" + $(this).val(),
+                data: { categoryId: $(this).val() /* add other additional parameters */ },
+                cache: false,
+                type: "POST",
+                dataType: "html",
+
+                success: function (data, textStatus, XMLHttpRequest) {
+                    $("#divPartialView").html(data); // HTML DOM replace
+                    $("#mainProductList").css('display','none');
+                }
+            });
+        });
+    });
+</script>
